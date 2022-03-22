@@ -10,19 +10,31 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
+import ru.proofeek.resdel.databinding.ActivityMenuBinding
 import java.util.*
 
 
 class MenuActivity : AppCompatActivity() {
 
+    lateinit var binding: ActivityMenuBinding
     lateinit var  toggle: ActionBarDrawerToggle
     lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
 
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var foodMenuAdapter: FoodMenuAdapter
+    private var dataList = mutableListOf<DataModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMenuBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setContentView(R.layout.activity_menu)
 
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
@@ -34,6 +46,40 @@ class MenuActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0f;
 
         getDeviceLocation()
+
+
+        recyclerView = findViewById(R.id.recyclerFoodMenu)
+
+
+        recyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
+        foodMenuAdapter = FoodMenuAdapter(applicationContext)
+        recyclerView.adapter = foodMenuAdapter
+
+        dataList.add(DataModel("Title", R.drawable.i7508))
+        dataList.add(DataModel("Title", R.drawable.i7577))
+        dataList.add(DataModel("Title", R.drawable.i7589))
+        dataList.add(DataModel("Title", R.drawable.i7615))
+        dataList.add(DataModel("Title", R.drawable.i7643))
+        dataList.add(DataModel("Title", R.drawable.i7666))
+        dataList.add(DataModel("Title", R.drawable.i7589))
+        dataList.add(DataModel("Title", R.drawable.i7615))
+        dataList.add(DataModel("Title", R.drawable.i7508))
+
+
+
+        foodMenuAdapter.setDataList(dataList)
+
+        //openFrag(FoodMenu.newInstance(), R.id.foodMenuFragment)
+
+
+    }
+
+    private fun openFrag(f: Fragment, idHolder: Int){
+        supportFragmentManager
+            .beginTransaction()
+            .replace(idHolder,f)
+            .commit()
+        Log.e("FDF","FDF")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

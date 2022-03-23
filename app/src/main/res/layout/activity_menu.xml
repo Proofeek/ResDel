@@ -14,21 +14,47 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerBanner"
             android:layout_width="match_parent"
-            android:scrollbars="horizontal"
             android:layout_height="120dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/textViewMenu"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="13dp"
+            android:fontFamily="@font/sfprodisplayregular"
+            android:text="@string/menu"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerBanner" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerFoodMenu"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerFoodMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="270dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewMenu" />
+
+        <TextView
+            android:id="@+id/textViewNews"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:fontFamily="@font/sfprodisplayregular"
+            android:text="@string/news"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="13dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerFoodMenu" />
 
 
 

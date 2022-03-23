@@ -17,12 +17,12 @@
     </style>
 
     <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@android:style/TextAppearance">
-        <item name="android:fontFamily">@font/montserratregular</item>
+        <item name="android:fontFamily">@font/sfprodisplayregular</item>
     </style>
 
     <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <!-- THIS is where you can color the arrow and the overflow button! -->
-        <item name="colorControlNormal">@color/orange</item> <!-- sets the color for the back arrow -->
+        <item name="colorControlNormal">@color/yellow</item> <!-- sets the color for the back arrow -->
         <item name="actionOverflowButtonStyle">@style/actionOverflowButtonStyle</item> <!-- sets the style for the overflow button -->
     </style>
 

@@ -4,7 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/box.xml" value="0.2585" />
-        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/activity_menu.xml" value="0.22" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/activity_menu.xml" value="0.33" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/banner_item.xml" value="0.5" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/food_menu_grid_item.xml" value="0.5" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/fragment_food_menu.xml" value="0.253125" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/menu/nav_drawer_menu.xml" value="0.38697916666666665" />

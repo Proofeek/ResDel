@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -27,9 +28,14 @@ class MenuActivity : AppCompatActivity() {
     lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
 
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewFoodMenu: RecyclerView
     private lateinit var foodMenuAdapter: FoodMenuAdapter
-    private var dataList = mutableListOf<DataModel>()
+    private var dataListFoodMenu = mutableListOf<DataModel>()
+
+    private lateinit var recyclerViewBanner: RecyclerView
+    private lateinit var bannerAdapter: BannerAdapter
+    private var dataListBanner = mutableListOf<DataModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,32 +52,50 @@ class MenuActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0f;
 
         getDeviceLocation()
+        addFoodMenuItems()
+        addBannerItems()
 
-
-        recyclerView = findViewById(R.id.recyclerFoodMenu)
-
-
-        recyclerView.layoutManager = GridLayoutManager(applicationContext, 2)
-        foodMenuAdapter = FoodMenuAdapter(applicationContext)
-        recyclerView.adapter = foodMenuAdapter
-
-        dataList.add(DataModel("Title", R.drawable.i7508))
-        dataList.add(DataModel("Title", R.drawable.i7577))
-        dataList.add(DataModel("Title", R.drawable.i7589))
-        dataList.add(DataModel("Title", R.drawable.i7615))
-        dataList.add(DataModel("Title", R.drawable.i7643))
-        dataList.add(DataModel("Title", R.drawable.i7666))
-        dataList.add(DataModel("Title", R.drawable.i7589))
-        dataList.add(DataModel("Title", R.drawable.i7615))
-        dataList.add(DataModel("Title", R.drawable.i7508))
-
-
-
-        foodMenuAdapter.setDataList(dataList)
 
         //openFrag(FoodMenu.newInstance(), R.id.foodMenuFragment)
 
 
+    }
+
+    private fun addBannerItems(){
+        recyclerViewBanner = findViewById(R.id.recyclerBanner)
+        recyclerViewBanner.layoutManager = LinearLayoutManager(
+            this@MenuActivity,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        bannerAdapter = BannerAdapter(applicationContext)
+        recyclerViewBanner.adapter = bannerAdapter
+
+        dataListBanner.add(DataModel("banner", R.drawable.i12))
+        dataListBanner.add(DataModel("banner", R.drawable.i12))
+        dataListBanner.add(DataModel("banner", R.drawable.i12))
+        dataListBanner.add(DataModel("banner", R.drawable.i12))
+
+        bannerAdapter.setDataList(dataListBanner)
+    }
+
+    private fun addFoodMenuItems() {
+        recyclerViewFoodMenu = findViewById(R.id.recyclerFoodMenu)
+        recyclerViewFoodMenu.layoutManager = GridLayoutManager(applicationContext, 3)
+        foodMenuAdapter = FoodMenuAdapter(applicationContext)
+        recyclerViewFoodMenu.adapter = foodMenuAdapter
+
+        dataListFoodMenu.add(DataModel("Title", R.drawable.i7508))
+        dataListFoodMenu.add(DataModel("Title", R.drawable.i7577))
+        dataListFoodMenu.add(DataModel("Title", R.drawable.i7589))
+        dataListFoodMenu.add(DataModel("Title", R.drawable.i7615))
+        dataListFoodMenu.add(DataModel("Title", R.drawable.i7643))
+        dataListFoodMenu.add(DataModel("Title", R.drawable.i7666))
+        dataListFoodMenu.add(DataModel("Title", R.drawable.i7589))
+        dataListFoodMenu.add(DataModel("Title", R.drawable.i7615))
+        dataListFoodMenu.add(DataModel("Title", R.drawable.i7508))
+
+        foodMenuAdapter.setDataList(dataListFoodMenu)
     }
 
     private fun openFrag(f: Fragment, idHolder: Int){

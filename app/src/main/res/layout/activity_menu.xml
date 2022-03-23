@@ -11,28 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ACTIVITY"
-            android:textSize="40sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerBanner"
+            android:layout_width="match_parent"
+            android:scrollbars="horizontal"
+            android:layout_height="120dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerFoodMenu"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:id="@+id/recyclerFoodMenu"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-        />
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

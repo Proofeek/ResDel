@@ -36,6 +36,10 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var bannerAdapter: BannerAdapter
     private var dataListBanner = mutableListOf<DataModel>()
 
+    private lateinit var recyclerViewNews: RecyclerView
+    private lateinit var newsAdapter: NewsAdapter
+    private var dataListNews = mutableListOf<DataModelNews>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,17 +52,38 @@ class MenuActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
+        supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f;
 
         getDeviceLocation()
         addFoodMenuItems()
         addBannerItems()
+        addNewsItems()
 
 
         //openFrag(FoodMenu.newInstance(), R.id.foodMenuFragment)
 
 
+    }
+
+    private fun addNewsItems() {
+        recyclerViewNews = findViewById(R.id.recyclerNews)
+        recyclerViewNews.layoutManager = LinearLayoutManager(
+            this@MenuActivity,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        newsAdapter = NewsAdapter(applicationContext)
+        recyclerViewNews.adapter = newsAdapter
+
+
+        dataListNews.add(DataModelNews("14 апреля","Мы открыли новую точку доставки!", R.drawable.i7666))
+        dataListNews.add(DataModelNews("22 апреля","Мы открыли новую точку доставки!", R.drawable.i7643))
+        dataListNews.add(DataModelNews("14 апреля","Мы открыли новую точку доставки!", R.drawable.i7577))
+        dataListNews.add(DataModelNews("14 апреля","Мы открыли новую точку доставки!", R.drawable.i7508))
+
+        newsAdapter.setDataList(dataListNews)
     }
 
     private fun addBannerItems(){
@@ -85,15 +110,15 @@ class MenuActivity : AppCompatActivity() {
         foodMenuAdapter = FoodMenuAdapter(applicationContext)
         recyclerViewFoodMenu.adapter = foodMenuAdapter
 
-        dataListFoodMenu.add(DataModel("Title", R.drawable.i7508))
-        dataListFoodMenu.add(DataModel("Title", R.drawable.i7577))
-        dataListFoodMenu.add(DataModel("Title", R.drawable.i7589))
-        dataListFoodMenu.add(DataModel("Title", R.drawable.i7615))
-        dataListFoodMenu.add(DataModel("Title", R.drawable.i7643))
-        dataListFoodMenu.add(DataModel("Title", R.drawable.i7666))
-        dataListFoodMenu.add(DataModel("Title", R.drawable.i7589))
-        dataListFoodMenu.add(DataModel("Title", R.drawable.i7615))
-        dataListFoodMenu.add(DataModel("Title", R.drawable.i7508))
+        dataListFoodMenu.add(DataModel("Закуски", R.drawable.i7508))
+        dataListFoodMenu.add(DataModel("Шашлыки", R.drawable.i7577))
+        dataListFoodMenu.add(DataModel("Люля-кебаб", R.drawable.i7589))
+        dataListFoodMenu.add(DataModel("Хачапури, Ламаджо", R.drawable.i7615))
+        dataListFoodMenu.add(DataModel("Рыба на углях", R.drawable.i7643))
+        dataListFoodMenu.add(DataModel("Шаурма", R.drawable.i7666))
+        dataListFoodMenu.add(DataModel("Люля-кебаб", R.drawable.i7589))
+        dataListFoodMenu.add(DataModel("Закуски", R.drawable.i7508))
+        dataListFoodMenu.add(DataModel("Шашлыки", R.drawable.i7577))
 
         foodMenuAdapter.setDataList(dataListFoodMenu)
     }

@@ -6,4 +6,19 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu">Меню</string>
     <string name="news">Новости</string>
+
+
+    <string name="january">января</string>
+    <string name="february">февраля</string>
+    <string name="march">марта</string>
+    <string name="april">апреля</string>
+    <string name="may">мая</string>
+    <string name="june">июня</string>
+    <string name="july">июля</string>
+    <string name="august">августа</string>
+    <string name="september">сентября</string>
+    <string name="october">октября</string>
+    <string name="november">ноября</string>
+    <string name="december">декабря</string>
+
 </resources>

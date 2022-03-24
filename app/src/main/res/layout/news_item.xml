@@ -51,6 +51,8 @@
         android:text="Мы открыли новую точку доставки!"
         android:textColor="@color/black"
         android:textSize="18sp"
+        android:maxLines="2"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="@+id/newsCardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/newsCardView"

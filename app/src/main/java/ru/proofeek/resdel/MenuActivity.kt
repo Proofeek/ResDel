@@ -1,5 +1,6 @@
 package ru.proofeek.resdel
 
+import android.R.attr.spacing
 import android.content.ContentValues.TAG
 import android.location.Address
 import android.location.Geocoder

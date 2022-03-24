@@ -32,7 +32,6 @@ class MenuActivity : AppCompatActivity() {
     lateinit var  toggle: ActionBarDrawerToggle
     lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
 
-
     private lateinit var recyclerViewFoodMenu: RecyclerView
     private lateinit var foodMenuAdapter: FoodMenuAdapter
     private var dataListFoodMenu = mutableListOf<DataModel>()
@@ -43,12 +42,9 @@ class MenuActivity : AppCompatActivity() {
 
     private lateinit var recyclerViewNews: RecyclerView
     private lateinit var newsAdapter: NewsAdapter
-    private var dataListNews = mutableListOf<DataModelNews>()
-
 
     private lateinit var newsJ: ArrayList<NewsItem>
     private lateinit var viewModel: MainViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,14 +61,14 @@ class MenuActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f;
 
-        //getDeviceLocation()
+        getDeviceLocation()
         addFoodMenuItems()
         addBannerItems()
         addNewsItems()
 
 
         //openFrag(FoodMenu.newInstance(), R.id.foodMenuFragment)
-            }
+    }
 
 
     private fun addNewsItems() {

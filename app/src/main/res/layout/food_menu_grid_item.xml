@@ -6,8 +6,7 @@
     android:layout_height="130dp"
     app:cardCornerRadius="15dp"
     app:cardElevation="0dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="15dp"
     android:foreground="@drawable/box">
 
     <ImageView

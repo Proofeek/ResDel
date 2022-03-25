@@ -72,6 +72,7 @@ class MenuActivity : AppCompatActivity() {
         addBannerItems()
         addNewsItems()
         showDiaolg()
+        news()
 
         //openFrag(NewsFragment.newInstance(), R.id.fra)
     }
@@ -92,7 +93,7 @@ class MenuActivity : AppCompatActivity() {
     private fun addNewsItems() {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
         viewModel.getPost()
         viewModel.myResponse.observe(this, androidx.lifecycle.Observer { response ->
             if(response.isSuccessful){
@@ -113,6 +114,20 @@ class MenuActivity : AppCompatActivity() {
                 Log.e("Response", response.errorBody().toString())
             }
 
+        })
+    }
+
+    private fun news(){
+        val repository = Repository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+        viewModel.getPost2(105)
+        viewModel.myResponse2.observe(this, androidx.lifecycle.Observer { response ->
+            if(response.isSuccessful){
+                Log.e("Response2: ", response.body().toString())
+            }else{
+                Log.e("Response", response.errorBody().toString())
+            }
         })
     }
 

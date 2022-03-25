@@ -1,12 +1,18 @@
 package ru.proofeek.resdel
 
+import android.app.Dialog
 import android.content.ContentValues.TAG
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.MenuItem
+import android.view.ViewGroup
+import android.view.Window
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -61,13 +67,25 @@ class MenuActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.elevation = 0f;
 
-        getDeviceLocation()
+        //getDeviceLocation()
         addFoodMenuItems()
         addBannerItems()
         addNewsItems()
+        showDiaolg()
 
+        //openFrag(NewsFragment.newInstance(), R.id.fra)
+    }
 
-        //openFrag(FoodMenu.newInstance(), R.id.foodMenuFragment)
+    private  fun showDiaolg(){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.fragment_news)
+
+        dialog.show()
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 1700)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.attributes.windowAnimations = R.style.FragmentAnimation
+        dialog.window!!.setGravity(Gravity.BOTTOM)
     }
 
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/frag_shape">
+
+    <TextView
+        android:id="@+id/newsTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sfprodisplayregular"
+        android:text="Шаурма"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="17dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/newsImageFrag"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/i7577"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newsTitleText" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:paddingTop="10dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newsImageFrag">
+
+        <TextView
+            android:id="@id/newsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sfprodisplayregular"
+            android:paddingStart="17dp"
+            android:paddingEnd="17dp"
+            android:text="Значение\r\nнареч. к тёмный; без света или светлых пятен и т. п. ◆ В маленькой и душной комнате пар стоял столбом, в парном тумане сверкал самовар и темно обрисовывались туловища, красные лица и бороды трех купцов, вероятно, тоже застигнутых метелью. В. А. Соллогуб, «Метель», 1849 г. (цитата из Национального корпуса русского языка, см. Список литературы)\r\nперен., разг. неясно, непонятно (о содержании чего-либо) ◆ Отсутствует пример употребления (см. рекомендации).\r\nпредик. об отсутствии освещения где-либо ◆ На дворе было темно, хоть глаз выколи. М. Ю. Лермонтов, «Герой нашего времени», 1839—1841 г. (цитата из Национального корпуса русского языка, см. Список литературы) ◆ Оттого что окно было заперто ставнями, а лампа едва горела, в комнате было темно. А. И. Куприн, «Штабс-капитан Рыбников», 1905 г. (цитата из Национального корпуса русского языка, см. Список литературы)\r\nперен., предик. о тоскливом, безрадостном, мрачном настроении, состоянии ◆ И на душе у Лохова было темно, тоскливо и"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newsImageFrag" />
+
+    </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -276,4 +276,5 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     override fun OnClick(item: DataModel) {
         showDialogBanner(item)
     }
+
 }

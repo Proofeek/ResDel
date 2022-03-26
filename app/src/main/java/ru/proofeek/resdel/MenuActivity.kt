@@ -1,5 +1,6 @@
 package ru.proofeek.resdel
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ContentValues.TAG
 import android.graphics.Color
@@ -13,8 +14,10 @@ import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -52,6 +55,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     private lateinit var newsJ: ArrayList<NewsItem>
     private lateinit var viewModel: MainViewModel
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuBinding.inflate(layoutInflater)
@@ -63,15 +67,26 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        supportActionBar?.title = ""
+
+        supportActionBar?.elevation = 0f
+        this.supportActionBar!!.displayOptions =
+            androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM
+        supportActionBar!!.setDisplayShowCustomEnabled(true)
+        supportActionBar!!.setCustomView(R.layout.custom_actionbar)
+        val view: View = supportActionBar!!.customView
+        val locationTitle: TextView = view.findViewById(R.id.locationTitle)
+        val locationLayout = view.findViewById<ConstraintLayout>(R.id.layoutTextArrow)
+        locationLayout.setSafeOnClickListener{
+                showDialogLocation()
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.elevation = 0f;
+
+
 
         //getDeviceLocation()
         addFoodMenuItems()
         addBannerItems()
         addNewsItems()
-        showDialogLocation()
 
 
         //openFrag(NewsFragment.newInstance(), R.id.fra)

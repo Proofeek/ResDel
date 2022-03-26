@@ -9,10 +9,10 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.MenuItem
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -24,15 +24,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
-import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import ru.proofeek.resdel.databinding.ActivityMenuBinding
 import ru.proofeek.resdel.model.NewsItem
-import ru.proofeek.resdel.model.Post
+import ru.proofeek.resdel.model.ResultNews
 import ru.proofeek.resdel.repository.Repository
 import java.util.*
 
 
-class MenuActivity : AppCompatActivity() {
+class MenuActivity : AppCompatActivity(), NewsAdapter.Listener {
 
     lateinit var binding: ActivityMenuBinding
     lateinit var  toggle: ActionBarDrawerToggle
@@ -71,13 +71,13 @@ class MenuActivity : AppCompatActivity() {
         addFoodMenuItems()
         addBannerItems()
         addNewsItems()
-        showDiaolg()
-        news()
+        showDialogLocation()
+
 
         //openFrag(NewsFragment.newInstance(), R.id.fra)
     }
 
-    private  fun showDiaolg(){
+    private fun showDialogBanner(){
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.fragment_news)
@@ -87,6 +87,53 @@ class MenuActivity : AppCompatActivity() {
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window!!.attributes.windowAnimations = R.style.FragmentAnimation
         dialog.window!!.setGravity(Gravity.BOTTOM)
+
+        val imageView = dialog.findViewById<ImageView>(R.id.newsImageFrag)
+        val titleView = dialog.findViewById<TextView>(R.id.newsTitleText)
+        val textView = dialog.findViewById<TextView>(R.id.newsText)
+    }
+
+    private fun showDialogLocation(){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.fragment_location)
+
+        dialog.show()
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 1800)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.attributes.windowAnimations = R.style.FragmentAnimation
+        dialog.window!!.setGravity(Gravity.BOTTOM)
+
+        val buttonSave = dialog.findViewById<Button>(R.id.buttonSave)
+        val locationText = dialog.findViewById<TextView>(R.id.myLocation)
+
+        buttonSave.setOnClickListener {
+            dialog.hide()
+        }
+    }
+
+    private  fun showDialogNews(result: ResultNews){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.fragment_news)
+
+        dialog.show()
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 1700)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.attributes.windowAnimations = R.style.FragmentAnimation
+        dialog.window!!.setGravity(Gravity.BOTTOM)
+
+        val imageView = dialog.findViewById<ImageView>(R.id.newsImageFrag)
+        val titleView = dialog.findViewById<TextView>(R.id.newsTitleText)
+        val textView = dialog.findViewById<TextView>(R.id.newsText)
+
+        titleView.text = result.name
+        textView.text = result.description
+        if(result.logo.isNotEmpty()) {
+            Picasso.get()
+                .load(result.logo)
+                .into(imageView)
+        }
     }
 
 
@@ -107,27 +154,14 @@ class MenuActivity : AppCompatActivity() {
                     false
                 )
 
-                newsAdapter = NewsAdapter(applicationContext, newsJ)
+                newsAdapter = NewsAdapter(applicationContext, newsJ, this)
                 recyclerViewNews.adapter = newsAdapter
+                Log.e("Response", response.body().toString())
 
             }else{
                 Log.e("Response", response.errorBody().toString())
             }
 
-        })
-    }
-
-    private fun news(){
-        val repository = Repository()
-        val viewModelFactory = MainViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-        viewModel.getPost2(105)
-        viewModel.myResponse2.observe(this, androidx.lifecycle.Observer { response ->
-            if(response.isSuccessful){
-                Log.e("Response2: ", response.body().toString())
-            }else{
-                Log.e("Response", response.errorBody().toString())
-            }
         })
     }
 
@@ -210,5 +244,28 @@ class MenuActivity : AppCompatActivity() {
         }catch (e: SecurityException){
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.message)
         }
+    }
+
+    override fun OnClick(item: NewsItem) {
+        //Toast.makeText(this, item.id.toString(), Toast.LENGTH_LONG).show()
+
+        //viewModel.myResponse2.value = null
+        Log.e("НАЖАОЛ","FGRGRG")
+        val repository = Repository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+        viewModel.getPost2(item.id)
+
+        viewModel.myResponse2.observe(this, androidx.lifecycle.Observer { response ->
+            if(response.isSuccessful){
+                Log.e("Response2: ", response.body().toString())
+                showDialogNews(response.body()!!.result)
+            }else{
+                Log.e("Response", response.errorBody().toString())
+            }
+        })
+
+        viewModel.myResponse2.value?.body()?.result?.let { showDialogNews(it) }
+        Log.e("VALUE: ",viewModel.myResponse2.value.toString())
     }
 }

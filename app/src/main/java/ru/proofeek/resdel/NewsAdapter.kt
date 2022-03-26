@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class NewsAdapter(var context: Context, val items: ArrayList<NewsItem>): RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
+class NewsAdapter(var context: Context, val items: ArrayList<NewsItem>, val listener: Listener): RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var image : ImageView
@@ -26,6 +26,11 @@ class NewsAdapter(var context: Context, val items: ArrayList<NewsItem>): Recycle
             text = itemView.findViewById(R.id.newsText)
             date = itemView.findViewById(R.id.newsDateText)
         }
+        fun bind(item: NewsItem, listener: Listener){
+            itemView.setOnClickListener{
+                listener.OnClick(item)
+            }
+        }
     }
 
 
@@ -36,7 +41,7 @@ class NewsAdapter(var context: Context, val items: ArrayList<NewsItem>): Recycle
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-
+        holder.bind(item, listener)
         holder.date.text = convertDate(item.active_from)
         holder.text.text = item.name
 
@@ -45,6 +50,7 @@ class NewsAdapter(var context: Context, val items: ArrayList<NewsItem>): Recycle
                 .load(item.logo)
                 .into(holder.image)
         }
+
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -76,4 +82,8 @@ class NewsAdapter(var context: Context, val items: ArrayList<NewsItem>): Recycle
     }
 
     override fun getItemCount() = items.size
+
+    interface Listener{
+        fun OnClick(item: NewsItem)
+    }
 }

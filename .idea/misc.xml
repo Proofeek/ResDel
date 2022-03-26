@@ -5,11 +5,23 @@
       <map>
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/box.xml" value="0.2585" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/frag_shape.xml" value="0.2515" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/gray_button.xml" value="0.218" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.218" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.218" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.218" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/ic_baseline_location_on_24.xml" value="0.218" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/ic_baseline_near_me_24.xml" value="0.218" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/ic_baseline_work_24.xml" value="0.218" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/line.xml" value="0.2775" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/line_dark.xml" value="0.218" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/location.xml" value="0.218" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/orange_box.xml" value="0.218" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/drawable/orange_button2.xml" value="0.218" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/activity_menu.xml" value="0.25" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/banner_item.xml" value="0.33" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/food_menu_grid_item.xml" value="0.75" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/fragment_food_menu.xml" value="0.253125" />
+        <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/fragment_location.xml" value="0.25" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/fragment_news.xml" value="0.25" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/layout/news_item.xml" value="0.5" />
         <entry key="..\:/Users/kiill/AndroidStudioProjects/ResDel/app/src/main/res/menu/nav_drawer_menu.xml" value="0.38697916666666665" />

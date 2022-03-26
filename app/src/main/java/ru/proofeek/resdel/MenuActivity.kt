@@ -3,6 +3,7 @@ package ru.proofeek.resdel
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ContentValues.TAG
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Address
@@ -55,6 +56,10 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     private lateinit var newsJ: ArrayList<NewsItem>
     private lateinit var viewModel: MainViewModel
 
+    private lateinit var myLocation: String
+    private var locationTitle: TextView? = null
+    private var locationText: TextView? = null
+
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,29 +72,31 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
+        myLocation = resources.getString(R.string.SelectAddress)
 
-        supportActionBar?.elevation = 0f
-        this.supportActionBar!!.displayOptions =
-            androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar!!.setDisplayShowCustomEnabled(true)
-        supportActionBar!!.setCustomView(R.layout.custom_actionbar)
-        val view: View = supportActionBar!!.customView
-        val locationTitle: TextView = view.findViewById(R.id.locationTitle)
-        val locationLayout = view.findViewById<ConstraintLayout>(R.id.layoutTextArrow)
-        locationLayout.setSafeOnClickListener{
-                showDialogLocation()
-        }
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-
-
-        //getDeviceLocation()
+        getDeviceLocation()
+        customActionBar()
         addFoodMenuItems()
         addBannerItems()
         addNewsItems()
 
 
         //openFrag(NewsFragment.newInstance(), R.id.fra)
+    }
+
+    private fun customActionBar(){
+        supportActionBar?.elevation = 0f
+        this.supportActionBar!!.displayOptions =
+            androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM
+        supportActionBar!!.setDisplayShowCustomEnabled(true)
+        supportActionBar!!.setCustomView(R.layout.custom_actionbar)
+        val view: View = supportActionBar!!.customView
+        locationTitle = view.findViewById(R.id.locationTitle)
+        val locationLayout = view.findViewById<ConstraintLayout>(R.id.layoutTextArrow)
+        locationLayout.setSafeOnClickListener{
+            showDialogLocation()
+        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun showDialogBanner(item: DataModel){
@@ -124,7 +131,10 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         dialog.window!!.setGravity(Gravity.BOTTOM)
 
         val buttonSave = dialog.findViewById<Button>(R.id.buttonSave)
-        val locationText = dialog.findViewById<TextView>(R.id.myLocation)
+        locationText = dialog.findViewById(R.id.myLocation)
+
+        if(isServicesOk()) getLocationPermission()
+        locationText?.text = myLocation
 
         buttonSave.setOnClickListener {
             dialog.hide()
@@ -252,12 +262,11 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
                     val addresses: List<Address> = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 1)
 
                     //запись адреса в ActionBar
-                    supportActionBar?.title="${addresses[0].locality}, ${addresses[0].thoroughfare}, ${addresses[0].featureName}"
-
+                    myLocation="${addresses[0].locality}, ${addresses[0].thoroughfare}, ${addresses[0].featureName}"
+                    locationTitle?.text = myLocation
+                    locationText?.text = myLocation
                 }else{
                     Log.e(TAG, "onComplete: current location is null")
-                    //Укажите адрес, если местоположение не удалось найти
-                    supportActionBar?.title = resources.getString(R.string.SelectAddress)
                 }
             }
         }catch (e: SecurityException){
@@ -292,4 +301,19 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         showDialogBanner(item)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            LOCATION_PERMISSION_REQUEST_CODE ->
+                if(grantResults.isNotEmpty()){
+                    if(grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                        Log.e("PErmission", "  НЕ ПОЛУЧИЛ")
+                    }else getDeviceLocation()
+                }
+        }
+    }
 }

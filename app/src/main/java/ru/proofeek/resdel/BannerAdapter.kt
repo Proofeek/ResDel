@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ru.proofeek.resdel.model.NewsItem
 
-class BannerAdapter(var context: Context): RecyclerView.Adapter<BannerAdapter.ViewHolder>() {
+class BannerAdapter(var context: Context, val listener: Listener): RecyclerView.Adapter<BannerAdapter.ViewHolder>() {
 
     var dataList = emptyList<DataModel>()
 
@@ -21,6 +22,11 @@ class BannerAdapter(var context: Context): RecyclerView.Adapter<BannerAdapter.Vi
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var image : ImageView = itemView.findViewById(R.id.BannerGridImage)
+        fun bind(item: DataModel, listener: BannerAdapter.Listener){
+            itemView.setOnClickListener{
+                listener.OnClick(item)
+            }
+        }
     }
 
 
@@ -31,9 +37,14 @@ class BannerAdapter(var context: Context): RecyclerView.Adapter<BannerAdapter.Vi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = dataList[position]
+        holder.bind(data, listener)
 
         holder.image.setImageResource(data.image)
     }
 
     override fun getItemCount() = dataList.size
+
+    interface Listener{
+        fun OnClick(item: DataModel)
+    }
 }

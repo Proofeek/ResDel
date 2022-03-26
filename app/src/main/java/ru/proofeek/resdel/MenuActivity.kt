@@ -32,7 +32,7 @@ import ru.proofeek.resdel.repository.Repository
 import java.util.*
 
 
-class MenuActivity : AppCompatActivity(), NewsAdapter.Listener {
+class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Listener {
 
     lateinit var binding: ActivityMenuBinding
     lateinit var  toggle: ActionBarDrawerToggle
@@ -77,7 +77,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener {
         //openFrag(NewsFragment.newInstance(), R.id.fra)
     }
 
-    private fun showDialogBanner(){
+    private fun showDialogBanner(item: DataModel){
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.fragment_news)
@@ -91,6 +91,10 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener {
         val imageView = dialog.findViewById<ImageView>(R.id.newsImageFrag)
         val titleView = dialog.findViewById<TextView>(R.id.newsTitleText)
         val textView = dialog.findViewById<TextView>(R.id.newsText)
+
+        imageView.setImageResource(item.image)
+        titleView.text = item.title
+        textView.text = item.title
     }
 
     private fun showDialogLocation(){
@@ -172,13 +176,13 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener {
             LinearLayoutManager.HORIZONTAL,
             false
         )
-        bannerAdapter = BannerAdapter(applicationContext)
+        bannerAdapter = BannerAdapter(applicationContext, this)
         recyclerViewBanner.adapter = bannerAdapter
 
-        dataListBanner.add(DataModel("banner", R.drawable.i12))
-        dataListBanner.add(DataModel("banner", R.drawable.i12))
-        dataListBanner.add(DataModel("banner", R.drawable.i12))
-        dataListBanner.add(DataModel("banner", R.drawable.i12))
+        dataListBanner.add(DataModel("banner1", R.drawable.i12))
+        dataListBanner.add(DataModel("banner2", R.drawable.i12))
+        dataListBanner.add(DataModel("banner3", R.drawable.i12))
+        dataListBanner.add(DataModel("banner4", R.drawable.i12))
 
         bannerAdapter.setDataList(dataListBanner)
     }
@@ -267,5 +271,9 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener {
 
         viewModel.myResponse2.value?.body()?.result?.let { showDialogNews(it) }
         Log.e("VALUE: ",viewModel.myResponse2.value.toString())
+    }
+
+    override fun OnClick(item: DataModel) {
+        showDialogBanner(item)
     }
 }

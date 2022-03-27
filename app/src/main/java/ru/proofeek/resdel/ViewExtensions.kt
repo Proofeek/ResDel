@@ -51,11 +51,9 @@ fun Activity.getLocationPermission(): Boolean{
     if(ContextCompat.checkSelfPermission(this.applicationContext,COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
         if(ContextCompat.checkSelfPermission(this.applicationContext,FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             mLocationPermissionGranted = true
-            //создание карты, если разрешения есть
             return true
         }
     }else{
-        //если разрешения не даны, то получить их
         ActivityCompat.requestPermissions(this, permissions,LOCATION_PERMISSION_REQUEST_CODE)
     }
     return false

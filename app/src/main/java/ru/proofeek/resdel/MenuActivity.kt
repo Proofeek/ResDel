@@ -3,12 +3,14 @@ package ru.proofeek.resdel
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.support.annotation.Nullable
@@ -83,7 +85,6 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         addBannerItems()
         addNewsItems()
         newsObserver()
-
 
         //openFrag(NewsFragment.newInstance(), R.id.fra)
     }
@@ -257,10 +258,9 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         try{
             val location: Task<Location> = mFusedLocationProviderClient.lastLocation
             location.addOnCompleteListener() {
-                if(location.isSuccessful){
+                if(location.isSuccessful && location.result != null){
                     Log.d(TAG, "onComplete: found location!")
                     val currentLocation: Location = location.result
-
 
                     val geocoder = Geocoder(this@MenuActivity, Locale.ROOT)
                     val addresses: List<Address> = geocoder.getFromLocation(currentLocation.latitude, currentLocation.longitude, 1)

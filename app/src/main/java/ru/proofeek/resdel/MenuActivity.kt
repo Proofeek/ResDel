@@ -62,7 +62,6 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     private lateinit var myLocation: String
     private var locationTitle: TextView? = null
     private var locationText: TextView? = null
-    private var obBool: Boolean = false
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +82,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         addFoodMenuItems()
         addBannerItems()
         addNewsItems()
+        newsObserver()
 
 
         //openFrag(NewsFragment.newInstance(), R.id.fra)
@@ -280,46 +280,24 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
 
 
     override fun OnClick(item: NewsItem) {
-        //Toast.makeText(this, item.id.toString(), Toast.LENGTH_LONG).show()
+        viewModel.getPost2(item.id)
+    }
 
-        //viewModel.myResponse2.value = null
-        Log.e("НАЖАОЛ","FGRGRG")
+    private fun newsObserver(){
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-        //viewModel.myResponse2.value = null
 
-        Log.e("ActiveObservers: ",viewModel.myResponse2.hasActiveObservers().toString())
-        viewModel.getPost2(item.id)
-        //viewModel.myResponse2.removeObservers(this)
-        Log.e("ActiveObservers2: ",viewModel.myResponse2.hasActiveObservers().toString())
-
-        //viewModel.myResponse2.value = null
-        Log.e("fewfffe     ",viewModel.myResponse2.value.toString())
-        //showDialogNews(viewModel.myResponse2.value?.body()!!.result)
-
-
-        if(!obBool) {
-            viewModel.myResponse2.observe(this, androidx.lifecycle.Observer { response ->
-                if (response.isSuccessful) {
-
+        viewModel.myResponse2.observe(this, androidx.lifecycle.Observer { response ->
+            if (response.isSuccessful) {
                     showDialogNews(response.body()!!.result)
-
-                } else {
-
-                    Log.e("Response", response.errorBody().toString())
-
-                }
-            })
-            obBool = true
-            //viewModel.myResponse2.removeObservers(this)
-        }
-        //viewModel.myResponse2.value = null
-
-
-
+            } else {
+                Log.e("Response", response.errorBody().toString())
+            }
+        })
         viewModel.myResponse2.value?.body()?.result?.let { showDialogNews(it) }
         Log.e("VALUE: ",viewModel.myResponse2.value.toString())
+
     }
 
     override fun OnClick(item: DataModel) {

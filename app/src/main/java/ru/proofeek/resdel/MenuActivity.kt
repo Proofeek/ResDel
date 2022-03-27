@@ -3,17 +3,13 @@ package ru.proofeek.resdel
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
-import android.os.Handler
-import android.support.annotation.Nullable
 import android.util.Log
 import android.view.*
 import android.widget.Button
@@ -32,10 +28,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
 import com.squareup.picasso.Picasso
-import retrofit2.Response
 import ru.proofeek.resdel.databinding.ActivityMenuBinding
 import ru.proofeek.resdel.model.NewsItem
-import ru.proofeek.resdel.model.Post2
 import ru.proofeek.resdel.model.ResultNews
 import ru.proofeek.resdel.repository.Repository
 import java.util.*
@@ -64,6 +58,9 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     private lateinit var myLocation: String
     private var locationTitle: TextView? = null
     private var locationText: TextView? = null
+
+    private val newsDialogHeightPercentage: Int = 90
+    private val settingsDialogHeightPercentage: Int = 95
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,8 +106,10 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.fragment_news)
 
+        val height = (resources.displayMetrics.heightPixels * newsDialogHeightPercentage * 0.01).toInt()
+
         dialog.show()
-        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 1700)
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, height)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window!!.attributes.windowAnimations = R.style.FragmentAnimation
         dialog.window!!.setGravity(Gravity.BOTTOM)
@@ -129,8 +128,10 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.fragment_location)
 
+        val height = (resources.displayMetrics.heightPixels * settingsDialogHeightPercentage * 0.01).toInt()
+
         dialog.show()
-        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 1800)
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, height)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window!!.attributes.windowAnimations = R.style.FragmentAnimation
         dialog.window!!.setGravity(Gravity.BOTTOM)
@@ -151,8 +152,10 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.fragment_news)
 
+        val height = (resources.displayMetrics.heightPixels * newsDialogHeightPercentage * 0.01).toInt()
+
         dialog.show()
-        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 1700)
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, height)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window!!.attributes.windowAnimations = R.style.FragmentAnimation
         dialog.window!!.setGravity(Gravity.BOTTOM)

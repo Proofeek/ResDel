@@ -15,7 +15,7 @@
         android:paddingBottom="10dp"
         android:text="@string/obtainMethod"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
             android:text="@string/delivery"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
             android:text="@string/pickup"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
             android:text="@string/at_restaurant"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -127,7 +127,7 @@
                     android:fontFamily="@font/sfprodisplayregular"
                     android:text="Текущее местоположение"
                     android:textColor="@color/black"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/myLocation"
@@ -136,7 +136,7 @@
                     android:fontFamily="@font/sfprodisplayregular"
                     android:text="Ижевск, ул.Дерябина, 3"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
             <ImageView
@@ -190,7 +190,7 @@
                     android:fontFamily="@font/sfprodisplayregular"
                     android:text="Дом"
                     android:textColor="@color/black"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -198,7 +198,7 @@
                     android:fontFamily="@font/sfprodisplayregular"
                     android:text="Ижевск, ул.Ленина, 140, подъезд 4, кв 434"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <ImageView
@@ -245,7 +245,7 @@
                     android:fontFamily="@font/sfprodisplayregular"
                     android:text="Работа"
                     android:textColor="@color/black"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -253,7 +253,7 @@
                     android:fontFamily="@font/sfprodisplayregular"
                     android:text="Ижевск, ул.10 лет Октября, 343, офис 433"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <ImageView
@@ -299,7 +299,7 @@
                     android:fontFamily="@font/sfprodisplayregular"
                     android:text="Ижевск, ул.10 лет Октября, 32, офис 11"
                     android:textColor="@color/black"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -307,7 +307,7 @@
                     android:fontFamily="@font/sfprodisplayregular"
                     android:text="Ижевск, ул.10 лет Октября, 32, офис 11"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <ImageView
@@ -352,7 +352,7 @@
                     android:fontFamily="@font/sfprodisplayregular"
                     android:text="Ижевск, ул.Ленина, 122, офис 130"
                     android:textColor="@color/black"
-                    android:textSize="18sp"/>
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -360,7 +360,7 @@
                     android:fontFamily="@font/sfprodisplayregular"
                     android:text="Ижевск, ул.Ленина, 122, офис 130"
                     android:textColor="@color/gray"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <ImageView
@@ -382,7 +382,7 @@
                 android:id="@+id/imageView7"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:paddingTop="3dp"
+                android:paddingTop="4dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/ic_baseline_add_24"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -395,7 +395,7 @@
                 android:fontFamily="@font/sfprodisplayregular"
                 android:text="Добавить адрес"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:paddingStart="11dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView7"
@@ -420,12 +420,13 @@
         android:layout_marginHorizontal="15dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/orange_button2"
-        android:elevation="0dp"
         android:text="Сохранить"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:stateListAnimator="@null"
+        android:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

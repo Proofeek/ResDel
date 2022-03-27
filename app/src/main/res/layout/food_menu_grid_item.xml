@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="108dp"
+    android:layout_width="110dp"
     android:layout_height="130dp"
     app:cardCornerRadius="15dp"
     app:cardElevation="0dp"
@@ -10,12 +10,12 @@
     android:foreground="@drawable/box">
 
     <ImageView
-        android:layout_gravity="center_horizontal"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
         android:id="@+id/foodMenuGridImage"
-        android:src="@drawable/i7577"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+        android:src="@drawable/i7577" />
 
     <TextView
         android:layout_gravity="center"

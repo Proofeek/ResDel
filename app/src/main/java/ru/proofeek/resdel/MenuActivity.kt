@@ -10,12 +10,13 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
+import android.support.annotation.Nullable
 import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -29,8 +30,10 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
 import com.squareup.picasso.Picasso
+import retrofit2.Response
 import ru.proofeek.resdel.databinding.ActivityMenuBinding
 import ru.proofeek.resdel.model.NewsItem
+import ru.proofeek.resdel.model.Post2
 import ru.proofeek.resdel.model.ResultNews
 import ru.proofeek.resdel.repository.Repository
 import java.util.*
@@ -59,6 +62,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     private lateinit var myLocation: String
     private var locationTitle: TextView? = null
     private var locationText: TextView? = null
+    private var obBool: Boolean = false
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -274,6 +278,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         }
     }
 
+
     override fun OnClick(item: NewsItem) {
         //Toast.makeText(this, item.id.toString(), Toast.LENGTH_LONG).show()
 
@@ -282,16 +287,36 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-        viewModel.getPost2(item.id)
+        //viewModel.myResponse2.value = null
 
-        viewModel.myResponse2.observe(this, androidx.lifecycle.Observer { response ->
-            if(response.isSuccessful){
-                Log.e("Response2: ", response.body().toString())
-                showDialogNews(response.body()!!.result)
-            }else{
-                Log.e("Response", response.errorBody().toString())
-            }
-        })
+        Log.e("ActiveObservers: ",viewModel.myResponse2.hasActiveObservers().toString())
+        viewModel.getPost2(item.id)
+        //viewModel.myResponse2.removeObservers(this)
+        Log.e("ActiveObservers2: ",viewModel.myResponse2.hasActiveObservers().toString())
+
+        //viewModel.myResponse2.value = null
+        Log.e("fewfffe     ",viewModel.myResponse2.value.toString())
+        //showDialogNews(viewModel.myResponse2.value?.body()!!.result)
+
+
+        if(!obBool) {
+            viewModel.myResponse2.observe(this, androidx.lifecycle.Observer { response ->
+                if (response.isSuccessful) {
+
+                    showDialogNews(response.body()!!.result)
+
+                } else {
+
+                    Log.e("Response", response.errorBody().toString())
+
+                }
+            })
+            obBool = true
+            //viewModel.myResponse2.removeObservers(this)
+        }
+        //viewModel.myResponse2.value = null
+
+
 
         viewModel.myResponse2.value?.body()?.result?.let { showDialogNews(it) }
         Log.e("VALUE: ",viewModel.myResponse2.value.toString())
@@ -316,4 +341,5 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
                 }
         }
     }
+
 }

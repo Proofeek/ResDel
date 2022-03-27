@@ -24,4 +24,5 @@ interface SimpleApi {
     suspend fun getPost2(
         @Path("idNumber") number: Int
     ): Response<Post2>
+
 }

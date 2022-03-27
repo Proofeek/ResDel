@@ -15,6 +15,7 @@ import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -76,12 +77,13 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
 
         myLocation = resources.getString(R.string.SelectAddress)
 
-        getDeviceLocation()
+        if(isOnline(this)) getDeviceLocation()
         customActionBar()
         addFoodMenuItems()
         addBannerItems()
         addNewsItems()
         newsObserver()
+
 
         //openFrag(NewsFragment.newInstance(), R.id.fra)
     }
@@ -139,7 +141,12 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         val buttonSave = dialog.findViewById<Button>(R.id.buttonSave)
         locationText = dialog.findViewById(R.id.myLocation)
 
-        if(isServicesOk()) getLocationPermission()
+        if(isOnline(this)) {
+            if (isServicesOk()) {
+                getLocationPermission()
+            }
+        }else toastWeNeedInternet()
+
         locationText?.text = myLocation
 
         buttonSave.setOnClickListener {
@@ -178,7 +185,8 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-        viewModel.getPost()
+        if(isOnline(this)) viewModel.getPost()
+        else toastWeNeedInternet()
         viewModel.myResponse.observe(this, androidx.lifecycle.Observer { response ->
             if(response.isSuccessful){
 
@@ -283,7 +291,8 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
 
 
     override fun OnClick(item: NewsItem) {
-        viewModel.getPost2(item.id)
+        if(isOnline(this)) viewModel.getPost2(item.id)
+        else toastWeNeedInternet()
     }
 
     private fun newsObserver(){
@@ -323,4 +332,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         }
     }
 
+    private fun toastWeNeedInternet(){
+        Toast.makeText(this, resources.getString(R.string.weNeedInternet), Toast.LENGTH_SHORT).show()
+    }
 }

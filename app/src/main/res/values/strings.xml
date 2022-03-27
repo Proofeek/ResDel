@@ -10,6 +10,7 @@
     <string name="delivery">Доставка</string>
     <string name="pickup">Самовывоз</string>
     <string name="at_restaurant">В ресторане</string>
+    <string name="weNeedInternet">Для работы приложения требуется интернет</string>
 
 
     <string name="january">января</string>

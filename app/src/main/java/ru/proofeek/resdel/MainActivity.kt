@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.common.ConnectionResult
@@ -21,11 +22,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportActionBar?.hide()
-        if(isServicesOk()){
-            if(getLocationPermission()){
-                startNextActivity()
+        val internetText = findViewById<TextView>(R.id.internetText)
+        internetText.text = ""
+
+        if(isOnline(this)){
+            if(isServicesOk()){
+                if(getLocationPermission()){
+                    startNextActivity()
+                }
             }
+        }else{
+            internetText.text = resources.getString(R.string.weNeedInternet)
         }
+
     }
 
     //получение разрешений

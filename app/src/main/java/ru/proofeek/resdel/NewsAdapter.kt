@@ -27,7 +27,7 @@ class NewsAdapter(var context: Context, val items: ArrayList<NewsItem>, val list
             date = itemView.findViewById(R.id.newsDateText)
         }
         fun bind(item: NewsItem, listener: Listener){
-            itemView.setSafeOnClickListener{
+            itemView.setOnClickListener{
                 listener.OnClick(item)
             }
         }

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
@@ -23,12 +24,6 @@ val LOCATION_PERMISSION_REQUEST_CODE = 1
 val COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
 val FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
 
-fun View.setSafeOnClickListener(onSafeClick: (View) -> Unit) {
-    val safeClickListener = SafeClickListener {
-        onSafeClick(it)
-    }
-    setOnClickListener(safeClickListener)
-}
 
 fun Activity.isServicesOk(): Boolean{
     Log.d(ContentValues.TAG,"isServicesOk: checking google services version" )
@@ -81,5 +76,14 @@ fun isOnline(context: Context): Boolean {
             }
         }
     }
+    return false
+}
+
+var mLastClickTime=0L
+fun isOpenRecently():Boolean{
+    if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+        return true
+    }
+    mLastClickTime = SystemClock.elapsedRealtime()
     return false
 }

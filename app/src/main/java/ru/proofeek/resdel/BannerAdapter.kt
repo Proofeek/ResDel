@@ -23,7 +23,7 @@ class BannerAdapter(var context: Context, val listener: Listener): RecyclerView.
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var image : ImageView = itemView.findViewById(R.id.BannerGridImage)
         fun bind(item: DataModel, listener: BannerAdapter.Listener){
-            itemView.setSafeOnClickListener {
+            itemView.setOnClickListener {
                 listener.OnClick(item)
             }
         }

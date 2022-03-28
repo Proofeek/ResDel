@@ -97,7 +97,8 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         val view: View = supportActionBar!!.customView
         locationTitle = view.findViewById(R.id.locationTitle)
         val locationLayout = view.findViewById<ConstraintLayout>(R.id.layoutTextArrow)
-        locationLayout.setSafeOnClickListener{
+        locationLayout.setOnClickListener{
+            if(isOpenRecently()) return@setOnClickListener
             showDialogLocation()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -234,6 +235,13 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         foodMenuAdapter = FoodMenuAdapter(applicationContext)
         recyclerViewFoodMenu.adapter = foodMenuAdapter
 
+        recyclerViewFoodMenu.addItemDecoration(
+            GridSpacingItemDecoration(
+                3,
+                resources.getDimension(R.dimen.food_item_width).toInt()
+            )
+        )
+
         dataListFoodMenu.add(DataModel("Закуски", R.drawable.i7508))
         dataListFoodMenu.add(DataModel("Шашлыки", R.drawable.i7577))
         dataListFoodMenu.add(DataModel("Люля-кебаб", R.drawable.i7589))
@@ -291,6 +299,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
 
 
     override fun OnClick(item: NewsItem) {
+        if(isOpenRecently()) return
         if(isOnline(this)) viewModel.getPost2(item.id)
         else toastWeNeedInternet()
     }
@@ -313,6 +322,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     }
 
     override fun OnClick(item: DataModel) {
+        if(isOpenRecently()) return
         showDialogBanner(item)
     }
 

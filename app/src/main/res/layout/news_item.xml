@@ -10,7 +10,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/newsCardView"
-        android:layout_width="110dp"
+        android:layout_width="@dimen/food_item_width"
         android:layout_height="85dp"
         android:layout_gravity="center_vertical"
         app:cardCornerRadius="15dp"

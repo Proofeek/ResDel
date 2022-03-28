@@ -10,6 +10,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.*
 import android.widget.Button
@@ -63,6 +64,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     private val newsDialogHeightPercentage: Int = 90
     private val settingsDialogHeightPercentage: Int = 95
 
+    private var widthBool: Boolean = false
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,8 +86,6 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         addBannerItems()
         newsObserver()
 
-
-        //openFrag(NewsFragment.newInstance(), R.id.fra)
     }
 
     private fun customActionBar(){
@@ -105,17 +105,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     }
 
     private fun showDialogBanner(item: DataModel){
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.fragment_news)
-
-        val height = (resources.displayMetrics.heightPixels * newsDialogHeightPercentage * 0.01).toInt()
-
-        dialog.show()
-        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, height)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window!!.attributes.windowAnimations = R.style.FragmentAnimation
-        dialog.window!!.setGravity(Gravity.BOTTOM)
+        val dialog = createDialog(newsDialogHeightPercentage, R.layout.fragment_news)
 
         val imageView = dialog.findViewById<ImageView>(R.id.newsImageFrag)
         val titleView = dialog.findViewById<TextView>(R.id.newsTitleText)
@@ -126,18 +116,23 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         textView.text = item.title
     }
 
-    private fun showDialogLocation(){
+    private fun createDialog(heightPercentage: Int, layout: Int): Dialog{
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.fragment_location)
+        dialog.setContentView(layout)
 
-        val height = (resources.displayMetrics.heightPixels * settingsDialogHeightPercentage * 0.01).toInt()
+        val height = (resources.displayMetrics.heightPixels * heightPercentage * 0.01).toInt()
 
         dialog.show()
         dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, height)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window!!.attributes.windowAnimations = R.style.FragmentAnimation
         dialog.window!!.setGravity(Gravity.BOTTOM)
+        return dialog
+    }
+
+    private fun showDialogLocation(){
+        val dialog = createDialog(settingsDialogHeightPercentage, R.layout.fragment_location)
 
         val buttonSave = dialog.findViewById<Button>(R.id.buttonSave)
         locationText = dialog.findViewById(R.id.myLocation)
@@ -156,17 +151,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     }
 
     private  fun showDialogNews(result: ResultNews){
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.fragment_news)
-
-        val height = (resources.displayMetrics.heightPixels * newsDialogHeightPercentage * 0.01).toInt()
-
-        dialog.show()
-        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, height)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window!!.attributes.windowAnimations = R.style.FragmentAnimation
-        dialog.window!!.setGravity(Gravity.BOTTOM)
+        val dialog = createDialog(newsDialogHeightPercentage, R.layout.fragment_news)
 
         val imageView = dialog.findViewById<ImageView>(R.id.newsImageFrag)
         val titleView = dialog.findViewById<TextView>(R.id.newsTitleText)
@@ -256,13 +241,6 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         foodMenuAdapter.setDataList(dataListFoodMenu)
     }
 
-    private fun openFrag(f: Fragment, idHolder: Int){
-        supportFragmentManager
-            .beginTransaction()
-            .replace(idHolder,f)
-            .commit()
-        Log.e("FDF","FDF")
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)){
@@ -348,8 +326,10 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     }
 
     override fun getWidth(width: Int): Int {
-        addNewsItems(width)
+        if(!widthBool){
+            addNewsItems(width)
+            widthBool=true
+        }
         return super.getWidth(width)
-
     }
 }

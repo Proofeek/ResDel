@@ -24,7 +24,9 @@ val LOCATION_PERMISSION_REQUEST_CODE = 1
 val COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
 val FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
 
-
+/**
+ * Проверяет доступны ли сервисы GooglePlay
+ */
 fun Activity.isServicesOk(): Boolean{
     Log.d(ContentValues.TAG,"isServicesOk: checking google services version" )
     val available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
@@ -43,7 +45,9 @@ fun Activity.isServicesOk(): Boolean{
     return false
 }
 
-//проверка разрешений
+/**
+ * Запрашивает разрешение на использование местоположения устройства
+ */
 fun Activity.getLocationPermission(): Boolean{
     val permissions = arrayOf(COURSE_LOCATION,FINE_LOCATION)
     if(ContextCompat.checkSelfPermission(this.applicationContext,COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
@@ -57,6 +61,9 @@ fun Activity.getLocationPermission(): Boolean{
     return false
 }
 
+/**
+ * Проверяет подключено ли устройство к сети
+ */
 fun isOnline(context: Context): Boolean {
     val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -79,7 +86,12 @@ fun isOnline(context: Context): Boolean {
     return false
 }
 
+
+
 var mLastClickTime=0L
+/**
+ * Проверяет была ли недавна вызвана эта функция
+ */
 fun isOpenRecently():Boolean{
     if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
         return true

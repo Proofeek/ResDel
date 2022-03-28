@@ -38,7 +38,6 @@ class BannerAdapter(var context: Context, val listener: Listener): RecyclerView.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = dataList[position]
         holder.bind(data, listener)
-
         holder.image.setImageResource(data.image)
     }
 

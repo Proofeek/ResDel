@@ -21,10 +21,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         supportActionBar?.hide()
         val internetText = findViewById<TextView>(R.id.internetText)
         internetText.text = ""
 
+
+        //запуск активити, если всё норм
         if(isOnline(this)){
             if(isServicesOk()){
                 if(getLocationPermission()){
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                     if(grantResults[0] != PackageManager.PERMISSION_GRANTED){
                         startNextActivity()
                     }
-                    //созданеие карты, когда разрешения даны
+                    //запуск активити, когда разрешения даны
                     startNextActivity()
                 }
 

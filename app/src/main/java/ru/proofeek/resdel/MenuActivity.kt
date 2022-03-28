@@ -10,7 +10,6 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.*
 import android.widget.Button
@@ -21,7 +20,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +38,7 @@ import java.util.*
 class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Listener, FoodMenuAdapter.Listener {
 
     lateinit var binding: ActivityMenuBinding
-    lateinit var  toggle: ActionBarDrawerToggle
+    lateinit var  actionBarDrawerToggle: ActionBarDrawerToggle
     lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
 
     private lateinit var recyclerViewFoodMenu: RecyclerView
@@ -73,22 +71,24 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         setContentView(binding.root)
         setContentView(R.layout.activity_menu)
 
-        val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
-        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
         myLocation = resources.getString(R.string.SelectAddress)
 
         if(isOnline(this)) getDeviceLocation()
-        customActionBar()
-        addFoodMenuItems()
-        addBannerItems()
+        addCustomActionBar()
+        addFoodMenuItemsToRecyclerView()
+        addBannerItemsToRecyclerView()
         newsObserver()
-
     }
 
-    private fun customActionBar(){
+    /**
+     * добавляет гамбургер меню и кастомный layout в ActionBar
+     */
+    private fun addCustomActionBar(){
+        val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
+        actionBarDrawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
+
         supportActionBar?.elevation = 0f
         this.supportActionBar!!.displayOptions =
             androidx.appcompat.app.ActionBar.DISPLAY_SHOW_CUSTOM
@@ -104,18 +104,9 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun showDialogBanner(item: DataModel){
-        val dialog = createDialog(newsDialogHeightPercentage, R.layout.fragment_news)
-
-        val imageView = dialog.findViewById<ImageView>(R.id.newsImageFrag)
-        val titleView = dialog.findViewById<TextView>(R.id.newsTitleText)
-        val textView = dialog.findViewById<TextView>(R.id.newsText)
-
-        imageView.setImageResource(item.image)
-        titleView.text = item.title
-        textView.text = item.title
-    }
-
+    /**
+     * Создаёт и открывает окно диалога, применяет к нему [layout]
+     */
     private fun createDialog(heightPercentage: Int, layout: Int): Dialog{
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -131,6 +122,43 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         return dialog
     }
 
+    /**
+     * Применяет [item] к окну диалога
+     */
+    private fun showDialogBanner(item: DataModel){
+        val dialog = createDialog(newsDialogHeightPercentage, R.layout.fragment_news)
+
+        val imageView = dialog.findViewById<ImageView>(R.id.newsImageFrag)
+        val titleView = dialog.findViewById<TextView>(R.id.newsTitleText)
+        val textView = dialog.findViewById<TextView>(R.id.newsText)
+
+        imageView.setImageResource(item.image)
+        titleView.text = item.title
+        textView.text = item.title
+    }
+
+    /**
+     * Применяет [result] к окну диалога
+     */
+    private  fun showDialogNews(result: ResultNews){
+        val dialog = createDialog(newsDialogHeightPercentage, R.layout.fragment_news)
+
+        val imageView = dialog.findViewById<ImageView>(R.id.newsImageFrag)
+        val titleView = dialog.findViewById<TextView>(R.id.newsTitleText)
+        val textView = dialog.findViewById<TextView>(R.id.newsText)
+
+        titleView.text = result.name
+        textView.text = result.description
+        if(result.logo.isNotEmpty()) {
+            Picasso.get()
+                .load(result.logo)
+                .into(imageView)
+        }
+    }
+
+    /**
+     * Добавляет функционал к окну диалога выбора локации
+     */
     private fun showDialogLocation(){
         val dialog = createDialog(settingsDialogHeightPercentage, R.layout.fragment_location)
 
@@ -150,24 +178,11 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         }
     }
 
-    private  fun showDialogNews(result: ResultNews){
-        val dialog = createDialog(newsDialogHeightPercentage, R.layout.fragment_news)
-
-        val imageView = dialog.findViewById<ImageView>(R.id.newsImageFrag)
-        val titleView = dialog.findViewById<TextView>(R.id.newsTitleText)
-        val textView = dialog.findViewById<TextView>(R.id.newsText)
-
-        titleView.text = result.name
-        textView.text = result.description
-        if(result.logo.isNotEmpty()) {
-            Picasso.get()
-                .load(result.logo)
-                .into(imageView)
-        }
-    }
-
-
-    private fun addNewsItems(widthFood:Int) {
+    /**
+     * Отправляет запрос на сервер и принимает ответ. Добавляет новости из ответа в RecyclerView
+     * @param widthFood ширина CardView новости (в пикселях)
+     */
+    private fun addNewsItemsToRecyclerView(widthFood:Int) {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
@@ -185,7 +200,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
                     false
                 )
 
-                newsAdapter = NewsAdapter(applicationContext, newsJ, this,widthFood)
+                newsAdapter = NewsAdapter(applicationContext, newsJ, this, widthFood)
                 recyclerViewNews.adapter = newsAdapter
                 Log.e("Response", response.body().toString())
 
@@ -196,7 +211,10 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         })
     }
 
-    private fun addBannerItems(){
+    /**
+     * Добавляет в RecyclerView баннеры
+     */
+    private fun addBannerItemsToRecyclerView(){
         recyclerViewBanner = findViewById(R.id.recyclerBanner)
         recyclerViewBanner.layoutManager = LinearLayoutManager(
             this@MenuActivity,
@@ -214,7 +232,10 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         bannerAdapter.setDataList(dataListBanner)
     }
 
-    private fun addFoodMenuItems() {
+    /**
+     * Добавляет айтемы "меню" в RecyclerView
+     */
+    private fun addFoodMenuItemsToRecyclerView() {
         recyclerViewFoodMenu = findViewById(R.id.recyclerFoodMenu)
         recyclerViewFoodMenu.layoutManager = GridLayoutManager(applicationContext, 3)
         foodMenuAdapter = FoodMenuAdapter(applicationContext, this)
@@ -241,14 +262,28 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         foodMenuAdapter.setDataList(dataListFoodMenu)
     }
 
+    /**
+     * Запускает observer, который при ответе с сервера открывает [showDialogNews]
+     */
+    private fun newsObserver(){
+        val repository = Repository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(toggle.onOptionsItemSelected(item)){
-            return true
-        }
-        return super.onOptionsItemSelected(item)
+        viewModel.myResponse2.observe(this, androidx.lifecycle.Observer { response ->
+            if (response.isSuccessful) {
+                showDialogNews(response.body()!!.result)
+            } else {
+                Log.e("Response", response.errorBody().toString())
+            }
+        })
+        viewModel.myResponse2.value?.body()?.result?.let { showDialogNews(it) }
+        Log.e("VALUE: ",viewModel.myResponse2.value.toString())
     }
 
+    /**
+     * Получает последнюю известное местоположение устройства, записывает его в ActionBar
+     */
     private fun getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the device current location")
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -275,36 +310,6 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.message)
         }
     }
-
-
-    override fun OnClick(item: NewsItem) {
-        if(isOpenRecently()) return
-        if(isOnline(this)) viewModel.getPost2(item.id)
-        else toastWeNeedInternet()
-    }
-
-    private fun newsObserver(){
-        val repository = Repository()
-        val viewModelFactory = MainViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-
-        viewModel.myResponse2.observe(this, androidx.lifecycle.Observer { response ->
-            if (response.isSuccessful) {
-                    showDialogNews(response.body()!!.result)
-            } else {
-                Log.e("Response", response.errorBody().toString())
-            }
-        })
-        viewModel.myResponse2.value?.body()?.result?.let { showDialogNews(it) }
-        Log.e("VALUE: ",viewModel.myResponse2.value.toString())
-
-    }
-
-    override fun OnClick(item: DataModel) {
-        if(isOpenRecently()) return
-        showDialogBanner(item)
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -321,15 +326,46 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         }
     }
 
+    /**
+     * Отправляет запрос новости, ответ принимает observer в [newsObserver]
+     * @param item новость, на которую нажал пользователь
+     */
+    override fun OnClick(item: NewsItem) {
+        if(isOpenRecently()) return
+        if(isOnline(this)) viewModel.getPost2(item.id)
+        else toastWeNeedInternet()
+    }
+
+    /**
+     * Запускает [showDialogBanner]
+     * @param item баннер, на который нажал пользователь
+     */
+    override fun OnClick(item: DataModel) {
+        if(isOpenRecently()) return
+        showDialogBanner(item)
+    }
+
+    /**
+     * Один раз запускает [addNewsItemsToRecyclerView]
+     * @param width ширина элемента меню из RecyclerView меню
+     */
+    override fun getWidth(width: Int): Int {
+        if(!widthBool){
+            addNewsItemsToRecyclerView(width)
+            widthBool=true
+        }
+        return super.getWidth(width)
+    }
+
+
     private fun toastWeNeedInternet(){
         Toast.makeText(this, resources.getString(R.string.weNeedInternet), Toast.LENGTH_SHORT).show()
     }
 
-    override fun getWidth(width: Int): Int {
-        if(!widthBool){
-            addNewsItems(width)
-            widthBool=true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true
         }
-        return super.getWidth(width)
+        return super.onOptionsItemSelected(item)
     }
 }

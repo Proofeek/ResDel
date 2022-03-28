@@ -26,7 +26,7 @@
             android:layout_gravity="center"
 
             android:scaleType="centerCrop"
-            android:src="@drawable/i7577" />
+            android:src="@color/lightGray" />
 
     </androidx.cardview.widget.CardView>
 

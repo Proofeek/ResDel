@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class FoodMenuAdapter(var context: Context): RecyclerView.Adapter<FoodMenuAdapter.ViewHolder>() {
+class FoodMenuAdapter(var context: Context, val listener: Listener): RecyclerView.Adapter<FoodMenuAdapter.ViewHolder>() {
 
     var dataList = emptyList<DataModel>()
 
@@ -28,6 +28,9 @@ class FoodMenuAdapter(var context: Context): RecyclerView.Adapter<FoodMenuAdapte
             image = itemView.findViewById(R.id.foodMenuGridImage)
             title = itemView.findViewById(R.id.foodMenuText)
         }
+        fun bind(item: DataModel, listener: Listener){
+                listener.getWidth(itemView.width)
+        }
     }
 
 
@@ -39,9 +42,23 @@ class FoodMenuAdapter(var context: Context): RecyclerView.Adapter<FoodMenuAdapte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = dataList[position]
 
+
         holder.title.text = data.title
         holder.image.setImageResource(data.image)
+
+        holder.itemView.post{
+            //Log.e("WIDTH: ", holder.itemView.width.toString())
+            holder.bind(data, listener)
+        }
     }
 
+
+
     override fun getItemCount() = dataList.size
+
+    interface Listener{
+        fun getWidth(width: Int): Int{
+            return width
+        }
+    }
 }

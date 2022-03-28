@@ -36,7 +36,7 @@ import ru.proofeek.resdel.repository.Repository
 import java.util.*
 
 
-class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Listener {
+class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Listener, FoodMenuAdapter.Listener {
 
     lateinit var binding: ActivityMenuBinding
     lateinit var  toggle: ActionBarDrawerToggle
@@ -63,6 +63,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     private val newsDialogHeightPercentage: Int = 90
     private val settingsDialogHeightPercentage: Int = 95
 
+
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +82,6 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
         customActionBar()
         addFoodMenuItems()
         addBannerItems()
-        addNewsItems()
         newsObserver()
 
 
@@ -182,7 +182,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     }
 
 
-    private fun addNewsItems() {
+    private fun addNewsItems(widthFood:Int) {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
@@ -200,7 +200,7 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
                     false
                 )
 
-                newsAdapter = NewsAdapter(applicationContext, newsJ, this)
+                newsAdapter = NewsAdapter(applicationContext, newsJ, this,widthFood)
                 recyclerViewNews.adapter = newsAdapter
                 Log.e("Response", response.body().toString())
 
@@ -232,13 +232,14 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
     private fun addFoodMenuItems() {
         recyclerViewFoodMenu = findViewById(R.id.recyclerFoodMenu)
         recyclerViewFoodMenu.layoutManager = GridLayoutManager(applicationContext, 3)
-        foodMenuAdapter = FoodMenuAdapter(applicationContext)
+        foodMenuAdapter = FoodMenuAdapter(applicationContext, this)
         recyclerViewFoodMenu.adapter = foodMenuAdapter
 
         recyclerViewFoodMenu.addItemDecoration(
             GridSpacingItemDecoration(
                 3,
-                resources.getDimension(R.dimen.food_item_width).toInt()
+                resources.getDimension(R.dimen.food_item_spacing).toInt(),
+                false
             )
         )
 
@@ -344,5 +345,11 @@ class MenuActivity : AppCompatActivity(), NewsAdapter.Listener, BannerAdapter.Li
 
     private fun toastWeNeedInternet(){
         Toast.makeText(this, resources.getString(R.string.weNeedInternet), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun getWidth(width: Int): Int {
+        addNewsItems(width)
+        return super.getWidth(width)
+
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.proofeek.resdel.model.NewsItem
@@ -14,17 +15,19 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class NewsAdapter(var context: Context, val items: ArrayList<NewsItem>, val listener: Listener): RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
+class NewsAdapter(var context: Context, val items: ArrayList<NewsItem>, val listener: Listener, val widthFood: Int): RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var image : ImageView
         var text : TextView
         var date: TextView
+        var cardView: CardView
 
         init {
             image = itemView.findViewById(R.id.newsImage)
             text = itemView.findViewById(R.id.newsText)
             date = itemView.findViewById(R.id.newsDateText)
+            cardView = itemView.findViewById(R.id.newsCardView)
         }
         fun bind(item: NewsItem, listener: Listener){
             itemView.setOnClickListener{
@@ -41,6 +44,7 @@ class NewsAdapter(var context: Context, val items: ArrayList<NewsItem>, val list
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
+        holder.cardView.layoutParams.width = widthFood
         holder.bind(item, listener)
         holder.date.text = convertDate(item.active_from)
         holder.text.text = item.name

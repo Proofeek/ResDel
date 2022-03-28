@@ -31,7 +31,7 @@ class FoodMenu : Fragment() {
 
 
         recyclerView.layoutManager = GridLayoutManager(activity?.applicationContext, 2)
-        foodMenuAdapter = activity?.applicationContext?.let { FoodMenuAdapter(it) }!!
+        //foodMenuAdapter = activity?.applicationContext?.let { FoodMenuAdapter(it,this) }!!
         recyclerView.adapter = foodMenuAdapter
 
         dataList.add(DataModel("Title", R.drawable.i7508))

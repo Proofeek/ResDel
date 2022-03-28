@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="food_item_width">110dp</dimen>
+    <dimen name="food_item_width">108dp</dimen>
+    <dimen name="food_item_spacing">15dp</dimen>
 
 </resources>

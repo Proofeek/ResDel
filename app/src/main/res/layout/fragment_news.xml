@@ -26,7 +26,7 @@
         android:layout_height="200dp"
         android:layout_marginTop="15dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/i7577"
+        android:src="@color/lightGray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newsTitleText" />

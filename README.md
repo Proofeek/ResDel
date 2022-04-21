@@ -6,3 +6,8 @@ _Особенности:_
   - банеры, на которые тоже можно нажимать  
   - автоматическое определение местоположения  
   - меню с выбором места доставки  
+
+  
+<img src="https://user-images.githubusercontent.com/78957574/164439489-a137c7de-2773-4b58-b77a-e4024f4c1c07.jpg" width = "240">
+<img src="https://user-images.githubusercontent.com/78957574/164439522-ee236590-709a-474e-8ed3-cd68954d4823.jpg" width = "240">
+<img src="https://user-images.githubusercontent.com/78957574/164439513-4c54d699-d97f-40e7-b8f3-230c95bd1ace.jpg" width = "240">
